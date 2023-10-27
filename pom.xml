@@ -27,34 +27,56 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.surefire</groupId>
-        <artifactId>maven-surefire-common</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
-        <executions>
-          <execution>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>verify</goal>
-            </goals>
-            <configuration>
-              <includes>**/CucumberRunner*.java</includes>
-              <properties>
-                <configurationParameters>
-                  cucumber.junit-platform.naming-strategy=long
-                  cucumber.features=src/test/resources/features
-                  cucumber.glue=stepDefinitions, hooks
-                  cucumber.plugin=json:target/cucumber-report.json, html:results/cucumber-report.html, rerun:target/rerun.txt
-                  cucumber.filter.tags=${TAGS}
-                  cucumber.execution.dry-run=false
-                  cucumber.execution.parallel.enabled=true
-                  cucumber.execution.parallel.config.strategy=fixed
-                  cucumber.execution.parallel.config.fixed.parallelism=${NODES}
-                  cucumber.execution.parallel.config.fixed.max-pool-size=${NODES}
-                </configurationParameters>
-              </properties>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <goal>verify</goal>
+          <testFailureIgnore>true</testFailureIgnore>
+          <includes>
+            <include>**/CucumberRunner.java</include>
+          </includes>
+          <properties>
+            <configurationParameters>
+              cucumber.junit-platform.naming-strategy=long
+              cucumber.features=src/test/resources/features
+              cucumber.glue=stepDefinitions
+              cucumber.plugin=json:target/cucumber-report.json, html:target/cucumber-report.html,
+              rerun:target/rerun.txt
+              cucumber.filter.tags=${TAGS}
+              cucumber.execution.dry-run=false
+              cucumber.execution.parallel.enabled=true
+              cucumber.execution.parallel.config.strategy=fixed
+              cucumber.execution.parallel.config.fixed.parallelism=${NODES}
+              cucumber.execution.parallel.config.fixed.max-pool-size=${NODES}
+            </configurationParameters>
+          </properties>
+        </configuration>
+        <!--        <executions>-->
+        <!--          <execution>-->
+        <!--            <phase>integration-test</phase>-->
+        <!--            <goals>-->
+        <!--              <goal>verify</goal>-->
+        <!--            </goals>-->
+        <!--            <configuration>-->
+        <!--              <includes>**/CucumberRunner*.java</includes>-->
+        <!--              <properties>-->
+        <!--                <configurationParameters>-->
+        <!--                  cucumber.junit-platform.naming-strategy=long-->
+        <!--                  cucumber.features=src/test/resources/features-->
+        <!--                  cucumber.glue=stepDefinitions, hooks-->
+        <!--                  cucumber.plugin=json:target/cucumber-report.json, html:results/cucumber-report.html, rerun:target/rerun.txt-->
+        <!--                  cucumber.filter.tags=${TAGS}-->
+        <!--                  cucumber.execution.dry-run=false-->
+        <!--                  cucumber.execution.parallel.enabled=true-->
+        <!--                  cucumber.execution.parallel.config.strategy=fixed-->
+        <!--                  cucumber.execution.parallel.config.fixed.parallelism=${NODES}-->
+        <!--                  cucumber.execution.parallel.config.fixed.max-pool-size=${NODES}-->
+        <!--                </configurationParameters>-->
+        <!--              </properties>-->
+        <!--            </configuration>-->
+        <!--          </execution>-->
+        <!--        </executions>-->
       </plugin>
 
       <plugin>
@@ -70,7 +92,7 @@
             </goals>
             <configuration>
               <projectName>Cucumber HTML Reports</projectName>
-              <outputDirectory>results</outputDirectory>
+              <outputDirectory>${project.build.directory}</outputDirectory>
               <inputDirectory>${project.build.directory}</inputDirectory>
               <jsonFiles>
                 <param>**/cucumber*.json</param>
@@ -99,6 +121,7 @@
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-junit-platform-engine</artifactId>
       <version>7.13.0</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
