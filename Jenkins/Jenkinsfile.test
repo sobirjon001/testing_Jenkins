@@ -42,7 +42,9 @@ TWO=TWO_value''', description: 'environment variables',)
             }
         }
         stage('Test') {
-            sh 'mvn verify -DNODES=1 -DTAGS=@Test'
+            steps {
+                sh 'mvn verify -DNODES=1 -DTAGS=@Test'
+            }
         }
     }
 }
