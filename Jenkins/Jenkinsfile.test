@@ -12,10 +12,12 @@ TWO=TWO_value''', description: 'environment variables',)
 
     stages {
         stage('clone repo') {
-            git(
-                    url: "https://github.com/sobirjon001/testing_Jenkins.git",
-                    branch: "master"
-            )
+            steps {
+                git(
+                        url: "https://github.com/sobirjon001/testing_Jenkins.git",
+                        branch: "master"
+                )
+            }
         }
         stage('downloading s3 files') {
             steps {
