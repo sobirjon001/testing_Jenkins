@@ -5,43 +5,42 @@ pipeline {
         text(name: 'ENV', defaultValue: '''ONE=ONE_value
 TWO=TWO_value''', description: 'environment variables',)
         text(name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download',)
+    }
+    environment {
+        THREE = "THREE_value"
+    }
 
-        environment {
-            THREE = "THREE_value"
+    stages {
+        stage('clone repo') {
+            git(
+                    url: "https://github.com/sobirjon001/testing_Jenkins.git",
+                    branch: "master"
+            )
         }
-
-        stages {
-            stage('clone repo') {
-                git(
-                        url: "https://github.com/sobirjon001/testing_Jenkins.git",
-                        branch: "master"
-                )
-            }
-            stage('downloading s3 files') {
-                steps {
-                    sh '''
+        stage('downloading s3 files') {
+            steps {
+                sh '''
                     for line in $s3files; do 
                         echo " downloading file '$line' . . ."
                     done  
                 '''
-                }
             }
-            stage('ENV print') {
-                steps {
-                    echo "ENV:\n $ENV"
-                    echo "ENV_2:\n ${params.ENV}"
-                }
+        }
+        stage('ENV print') {
+            steps {
+                echo "ENV:\n $ENV"
+                echo "ENV_2:\n ${params.ENV}"
             }
-            stage('Env print') {
-                steps {
-                    echo "ONE = ${env.ONE}"
-                    echo "TWO = ${env.TWO}"
-                    echo "THREE = ${env.THREE}"
-                }
+        }
+        stage('Env print') {
+            steps {
+                echo "ONE = ${env.ONE}"
+                echo "TWO = ${env.TWO}"
+                echo "THREE = ${env.THREE}"
             }
-            stage('Test') {
-                sh 'mvn verify -DNODES=1 -DTAGS=@Test'
-            }
+        }
+        stage('Test') {
+            sh 'mvn verify -DNODES=1 -DTAGS=@Test'
         }
     }
 }
