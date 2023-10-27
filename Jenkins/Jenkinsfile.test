@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        maven: "m3"
+        jdk: "JDK-11"
+    }
+
     parameters {
         text(name: 'ENV', defaultValue: '''ONE=ONE_value
 TWO=TWO_value''', description: 'environment variables',)
@@ -41,8 +46,7 @@ TWO=TWO_value''', description: 'environment variables',)
         }
         stage('Test') {
             steps {
-                sh 'mvn clean install'
-                sh 'mvn verify -DNODES=1 -DTAGS=@Test'
+                sh 'mvn clean test verify -DNODES=1 -DTAGS=@Test'
             }
         }
     }
