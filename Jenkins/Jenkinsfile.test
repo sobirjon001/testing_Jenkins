@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         maven 'm3'
-        jdk 'JDK-11'
     }
 
     parameters {
@@ -13,7 +12,6 @@ TWO=TWO_value''', description: 'environment variables',)
     }
     environment {
         THREE = "THREE_value"
-        PATH = "/opt/apache-maven-3.9.5/bin:$PATH"
     }
 
     stages {
