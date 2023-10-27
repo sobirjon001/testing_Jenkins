@@ -8,7 +8,7 @@ TWO=TWO_value''', description: 'environment variables',)
     }
     environment {
         THREE = "THREE_value"
-        PATH = '/opt/apache-maven-3.9.5/bin:$PATH'
+        PATH = "/opt/apache-maven-3.9.5/bin:$PATH"
     }
 
     stages {
