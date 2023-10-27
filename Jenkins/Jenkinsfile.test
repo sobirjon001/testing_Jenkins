@@ -13,10 +13,7 @@ TWO=TWO_value''', description: 'environment variables',)
     stages {
         stage('clone repo') {
             steps {
-                git(
-                        url: "https://github.com/sobirjon001/testing_Jenkins.git",
-                        branch: "master"
-                )
+                git 'https://github.com/sobirjon001/testing_Jenkins.git'
             }
         }
         stage('downloading s3 files') {
@@ -43,8 +40,8 @@ TWO=TWO_value''', description: 'environment variables',)
         }
         stage('Test') {
             steps {
-                withMaven {
-                    sh 'mvn clean verify -DNODES=1 -DTAGS=@Test'
+                tools {
+                    maven 'mvn clean verify -DNODES=1 -DTAGS=@Test'
                 }
             }
         }
