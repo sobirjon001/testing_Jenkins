@@ -7,4 +7,5 @@ Feature: Printing environment variables
     Given I print env variable "THREE"
     Given I print env variable "FOUR"
     Given I print env variable "FIVE"
+    Given I print env variable "SIX"
     Given I print env variable "ENV"
