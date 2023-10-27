@@ -41,9 +41,6 @@ TWO=TWO_value''', description: 'environment variables',)
         }
         stage('Test') {
             steps {
-                tools {
-                    maven 'mvn'
-                }
                 sh 'mvn clean install'
                 sh 'mvn verify -DNODES=1 -DTAGS=@Test'
             }
