@@ -8,6 +8,7 @@ TWO=TWO_value''', description: 'environment variables',)
     }
     environment {
         THREE = "THREE_value"
+        PATH = '/opt/apache-maven-3.9.5/bin:$PATH'
     }
 
     stages {
@@ -41,8 +42,10 @@ TWO=TWO_value''', description: 'environment variables',)
         stage('Test') {
             steps {
                 tools {
-                    maven 'mvn clean verify -DNODES=1 -DTAGS=@Test'
+                    maven 'mvn'
                 }
+                sh 'mvn clean install'
+                sh 'mvn verify -DNODES=1 -DTAGS=@Test'
             }
         }
     }
