@@ -20,7 +20,7 @@ SIX''', description: 'environment variables',)
     stages {
         stage('clone repo') {
             steps {
-                git changelog: false, poll: false, url: 'https://github.com/sobirjon001/testing_Jenkins.git'
+                git 'https://github.com/sobirjon001/testing_Jenkins.git'
             }
         }
         stage('downloading s3 files') {
