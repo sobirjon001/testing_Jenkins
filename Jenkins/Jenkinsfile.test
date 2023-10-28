@@ -7,7 +7,10 @@ pipeline {
 
     parameters {
         text(name: 'ENV', defaultValue: '''ONE=ONE_value
-TWO=TWO_value''', description: 'environment variables',)
+TWO=TWO_value
+FOUR=four
+FIVE=five
+SIX''', description: 'environment variables',)
         text(name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download',)
     }
     environment {
