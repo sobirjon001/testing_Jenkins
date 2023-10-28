@@ -6,11 +6,9 @@ pipeline {
     }
 
     parameters {
-        text(name: 'ENV_PARAMS', defaultValue: '''ONE=ONE_value
-TWO=TWO_value
-FOUR=four
-FIVE=five
-SIX''', description: 'environment variables',)
+        text(name: 'ENV_PARAMS', defaultValue: '''NOT_SKIPPED=value_will_be_used
+#SKIPPED=will_be_skipped
+IGNORED''', description: 'environment variables',)
         text(name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download',)
     }
     environment {
