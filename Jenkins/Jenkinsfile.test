@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        text(name: 'ENV', defaultValue: '''ONE=ONE_value
+        text(name: 'ENV_PARAMS', defaultValue: '''ONE=ONE_value
 TWO=TWO_value
 FOUR=four
 FIVE=five
@@ -15,9 +15,15 @@ SIX''', description: 'environment variables',)
     }
     environment {
         THREE = "THREE_value"
+        ENV = "${ENV_PARAMS}"
     }
 
     stages {
+        stage('clear ENV_PARAMS') {
+            steps {
+                ENV_PARAMS=""
+            }
+        }
         stage('clone repo') {
             steps {
                 git 'https://github.com/sobirjon001/testing_Jenkins.git'
