@@ -12,10 +12,9 @@ public class Config {
   private static final Map<String, String> envValues = new HashMap<>();
 
   static {
-    String[] lines = dotenv.get("ENV").split("\\n");
-    for (String line : lines) {
-      line = line.replaceAll("\\s", "");
-      if (!line.startsWith("#") && line.contains("=")) envValues.put(line.split("=")[0], line.split("=")[1]);
+    String[] params = dotenv.get("ENV").split("\\s+");
+    for (String param : params) {
+      if (!param.startsWith("#") && param.contains("=")) envValues.put(param.split("=")[0], param.split("=")[1]);
     }
   }
 
