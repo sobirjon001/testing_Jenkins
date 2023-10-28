@@ -54,6 +54,7 @@ SIX''', description: 'environment variables',)
     post {
         always {
             publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            clearWs()
         }
     }
 }
