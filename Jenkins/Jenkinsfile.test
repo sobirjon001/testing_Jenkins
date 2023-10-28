@@ -17,7 +17,7 @@ TWO=TWO_value''', description: 'environment variables',)
     stages {
         stage('clone repo') {
             steps {
-                git 'https://github.com/sobirjon001/testing_Jenkins.git'
+                git changelog: false, poll: false, url: 'https://github.com/sobirjon001/testing_Jenkins.git'
             }
         }
         stage('downloading s3 files') {
