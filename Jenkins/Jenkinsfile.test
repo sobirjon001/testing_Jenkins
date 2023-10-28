@@ -8,7 +8,7 @@ pipeline {
     parameters {
         text(name: 'ENV_PARAMS', defaultValue: '''NOT_SKIPPED=value_will_be_used
 #SKIPPED=will_be_skipped
-IGNORED''', description: 'environment variables', )
+IGNORED''', description: 'environment variables',)
         text(name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download',)
     }
     environment {
@@ -16,14 +16,12 @@ IGNORED''', description: 'environment variables', )
         ENV = "${ENV_PARAMS}"
     }
 
-    stages {
-        stage('clear ENV_PARAMS') {
-            steps {
-                params.ENV_PARAMS='''NOT_SKIPPED=value_will_be_used
+    params.ENV_PARAMS = '''NOT_SKIPPED=value_will_be_used
 #SKIPPED=will_be_skipped
 IGNORED'''
-            }
-        }
+
+
+    stages {
         stage('clone repo') {
             steps {
                 git 'https://github.com/sobirjon001/testing_Jenkins.git'
