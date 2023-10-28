@@ -21,7 +21,7 @@ SIX''', description: 'environment variables',)
     stages {
         stage('clear ENV_PARAMS') {
             steps {
-                ENV_PARAMS=""
+                sh 'ENV_PARAMS=""'
             }
         }
         stage('clone repo') {
