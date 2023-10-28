@@ -9,3 +9,8 @@ Feature: Printing environment variables
     Given I print env variable "FIVE"
     Given I print env variable "SIX"
     Given I print env variable "ENV"
+
+
+  @Test
+  Scenario: Get all env variables
+    Given I print all env variables

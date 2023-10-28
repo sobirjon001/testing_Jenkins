@@ -1,10 +1,9 @@
 package utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvEntry;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Config {
 
@@ -20,6 +19,10 @@ public class Config {
 
   public static String getEnv(String key) {
     return !Objects.equals(dotenv.get(key), null) ? dotenv.get(key) : envValues.get(key);
+  }
+
+  public static Set<DotenvEntry> getAllEnv() {
+    return dotenv.entries();
   }
 
 }

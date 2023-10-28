@@ -8,4 +8,9 @@ public class testSteps {
   public void iPrintEnvVariable(String envVariableKey) {
     System.out.println(envVariableKey + " = " + Config.getEnv(envVariableKey));
   }
+
+    @Given("I print all env variables")
+    public void iPrintAllEnvVariables() {
+      System.out.println(Config.getAllEnv());
+    }
 }
