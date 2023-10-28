@@ -1,7 +1,6 @@
 package utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import io.github.cdimascio.dotenv.DotenvEntry;
 
 import java.util.*;
 
@@ -21,8 +20,7 @@ public class Config {
     return !Objects.equals(dotenv.get(key), null) ? dotenv.get(key) : envValues.get(key);
   }
 
-  public static Set<DotenvEntry> getAllEnv() {
-    return dotenv.entries();
+  public static Map<String, String> getEnvValues() {
+    return envValues;
   }
-
 }

@@ -11,6 +11,6 @@ public class testSteps {
 
     @Given("I print all env variables")
     public void iPrintAllEnvVariables() {
-      System.out.println(Config.getAllEnv());
+      System.out.println(Config.getEnvValues());
     }
 }
