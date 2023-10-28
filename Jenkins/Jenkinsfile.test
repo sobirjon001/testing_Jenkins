@@ -8,7 +8,7 @@ pipeline {
     parameters {
         text(name: 'ENV_PARAMS', defaultValue: '''NOT_SKIPPED=value_will_be_used
 #SKIPPED=will_be_skipped
-IGNORED''', description: 'environment variables',)
+IGNORED''', description: 'environment variables', )
         text(name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download',)
     }
     environment {
@@ -19,7 +19,9 @@ IGNORED''', description: 'environment variables',)
     stages {
         stage('clear ENV_PARAMS') {
             steps {
-                sh 'ENV_PARAMS=""'
+                params.ENV_PARAMS='''NOT_SKIPPED=value_will_be_used
+#SKIPPED=will_be_skipped
+IGNORED'''
             }
         }
         stage('clone repo') {
