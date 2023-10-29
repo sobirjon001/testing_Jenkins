@@ -14,6 +14,6 @@ public class testSteps {
   @Given("I print all env variables")
   public void iPrintAllEnvVariables() {
     System.out.println(Config.getEnvValues());
-    Assert.assertTrue(true);
+    Assert.assertTrue("FAILED!", false);
   }
 }
