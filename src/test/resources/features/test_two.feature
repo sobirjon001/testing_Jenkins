@@ -1,6 +1,6 @@
 Feature: Printing environment variables
 
-  @Test
+  @Test @Pos
   Scenario: Printing environment variables
     Given I print env variable "ONE"
     Given I print env variable "TWO"
@@ -11,6 +11,6 @@ Feature: Printing environment variables
     Given I print env variable "ENV"
 
 
-  @Test
+  @Test @Neg
   Scenario: Get all env variables
     Given I print all env variables

@@ -44,7 +44,7 @@
               cucumber.glue=stepDefinitions
               cucumber.plugin=json:target/cucumber-report.json, html:target/cucumber-report.html,
               rerun:target/rerun.txt, pretty
-              cucumber.filter.tags=${TAGS}
+              cucumber.filter.tags=${TAGS} and not @Neg
               cucumber.execution.dry-run=false
               cucumber.execution.parallel.enabled=true
               cucumber.execution.parallel.config.strategy=fixed
