@@ -46,7 +46,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn clean test verify -DNODES=1 -DTAGS=$TAGS'
+                sh 'mvn clean test verify'
             }
         }
     }
