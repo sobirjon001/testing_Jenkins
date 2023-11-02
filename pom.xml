@@ -41,7 +41,7 @@
             <configurationParameters>
               cucumber.junit-platform.naming-strategy=long
               cucumber.features=src/test/resources/features
-              cucumber.glue=stepDefinitions
+              cucumber.glue=stepDefinitions, hooks
               cucumber.plugin=json:target/cucumber-report.json, html:target/cucumber-report.html,
               rerun:target/rerun.txt, pretty
               cucumber.filter.tags=${TAGS} and not @Neg
