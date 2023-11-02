@@ -1,4 +1,4 @@
-package runners.hooks;
+package hooks;
 
 import io.cucumber.java.BeforeAll;
 import utils.Config;
