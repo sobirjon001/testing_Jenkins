@@ -6,8 +6,10 @@ pipeline {
     }
 
     parameters {
-        password description: 'Please copy/past user logins', name: 'ENV_PARAMS'
-        text(name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download',)
+        choice name: 'NODES', choices: ['1', '2', '3', '4', '5', '6'], description: 'Number of parallel nodes'
+        string name: 'TAGS', description: 'Example: @One and @Two and not (@Three or @Four)'
+        password name: 'ENV_PARAMS', description: 'Please copy/past user logins'
+        text name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download'
     }
     environment {
         THREE = "THREE_value"
@@ -44,7 +46,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn clean test verify -DNODES=1 -DTAGS=@Test'
+                sh 'mvn clean test verify -DNODES=1 -DTAGS=$TAGS'
             }
         }
     }
