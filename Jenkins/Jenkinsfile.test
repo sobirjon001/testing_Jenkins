@@ -47,12 +47,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t my_framework -f Dockerfile.test ./Jenkins/Dockerfiles'
+                sh 'docker build -t my_framework -f Jenkins/Dockerfiles/Dockerfile.test .'
             }
         }
         stage('Deploy and Test') {
             steps {
-                sh 'docker run -it -e TAGS -e NODES -e THREE -e ENV -v ./results -v ./src/test/resources/downloads --rm my_framework'
+                sh 'docker run -it -e TAGS -e NODES -e THREE -e ENV -v results -v src/test/resources/downloads --rm my_framework'
             }
         }
     }
