@@ -47,7 +47,7 @@ pipeline {
         }
         stage('Deploy and Test') {
             steps {
-                sh 'docker compose -f Jenkins/Compose/test.yml run --rm my_framework'
+                sh 'docker compose Jenkins/Compose/test.yml run --rm my_framework'
             }
         }
     }
