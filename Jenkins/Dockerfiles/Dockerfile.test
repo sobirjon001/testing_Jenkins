@@ -1,0 +1,11 @@
+FROM maven:3.9.5-amazoncorretto-11
+
+COPY . .
+
+ENV TAGS=$TAGS
+ENV NODES=$NODES
+
+RUN mkdir results
+RUN mkdir src/test/resources/downloads
+
+RUN mvn clean test verify

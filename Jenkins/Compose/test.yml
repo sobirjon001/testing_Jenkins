@@ -1,0 +1,9 @@
+service:
+  my_framework:
+    build: Jenkins/Dockerfiles/Dockerfile.test
+    volumes:
+      - results:results
+      - src/test/resources/downloads:src/test/resources/downloads
+    environment:
+      - THREE=${THREE}
+      - ENV=${ENV}

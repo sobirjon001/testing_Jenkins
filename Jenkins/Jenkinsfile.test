@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                     for line in $s3files; do 
-                        echo " downloading file '$line' . . ."
+                        echo "file content of '$line'" >>> src/test/resources/downloads/test_file.txt
                     done  
                 '''
             }
@@ -44,9 +44,9 @@ pipeline {
                 echo "THREE = ${env.THREE}"
             }
         }
-        stage('Test') {
+        stage('Deploy and Test') {
             steps {
-                sh 'mvn clean test verify'
+                sh 'docker compose -it -f Jenkins/Compose/test.yml run --rm my_framework'
             }
         }
     }
