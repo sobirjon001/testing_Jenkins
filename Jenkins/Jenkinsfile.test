@@ -45,14 +45,20 @@ pipeline {
                 echo "THREE = ${env.THREE}"
             }
         }
+        stage('Build') {
+            steps {
+                sh 'docker build -t my_framework -f Jenkins/Dockerfiles/Dockerfile.test'
+            }
+        }
         stage('Deploy and Test') {
             steps {
-                sh 'docker compose Jenkins/Compose/test.yml run --rm my_framework'
+                sh 'docker run -it -e TAGS -e NODES -e THREE -e ENV -v results -v src/test/resources/downloads --rm my_framework'
             }
         }
     }
     post {
         always {
+            sh 'docker rmi my_framework'
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             cleanWs()
         }
