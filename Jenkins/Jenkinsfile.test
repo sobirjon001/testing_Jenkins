@@ -20,11 +20,12 @@ pipeline {
         }
         stage('downloading s3 files') {
             steps {
-                sh '''
-                    for line in $s3files; do 
-                        echo "file content of '$line'" >>> src/test/resources/downloads/test_file.txt
-                    done  
-                '''
+//                sh '''
+//                    for line in $s3files; do
+//                        echo "file content of '$line'" >>> src/test/resources/downloads/test_file.txt
+//                    done
+//                '''
+                writeFile file: 'src/test/resources/downloads/test_file.txt', text: "$s3files"
             }
         }
         stage('ENV print') {
