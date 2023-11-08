@@ -1,6 +1,8 @@
 service:
   my_framework:
-    build: Jenkins/Dockerfiles/Dockerfile.test
+    build:
+      context: Jenkins/Dockerfiles
+      dockerfile: Dockerfile.test
     volumes:
       - results:results
       - src/test/resources/downloads:src/test/resources/downloads
