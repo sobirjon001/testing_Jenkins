@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        dockerTool 'docker'
+    }
+
     parameters {
         choice name: 'NODES', choices: ['1', '2', '3', '4', '5', '6'], description: 'Number of parallel nodes'
         string name: 'TAGS', description: 'Example: @One and @Two and not (@Three or @Four)'
