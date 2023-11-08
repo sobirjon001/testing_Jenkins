@@ -47,7 +47,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t my_framework -f Jenkins/Dockerfiles/Dockerfile.test'
+                sh 'docker build -t my_framework Jenkins/Dockerfiles/Dockerfile.test'
             }
         }
         stage('Deploy and Test') {
