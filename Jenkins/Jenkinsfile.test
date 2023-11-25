@@ -71,7 +71,7 @@ pipeline {
                 sh '''
                     mkdir results || true
                     mkdir downloads || true
-                    echo $(curl "http://host.docker.internal:4444/wd/hub/status")
+                    echo $(curl -sL "http://host.docker.internal:4444/wd/hub/status")
                     docker run -t --rm --name my_framework \
                         -e TAGS \
                         -e NODES \
