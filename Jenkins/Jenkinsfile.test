@@ -75,8 +75,8 @@ pipeline {
                         -e NODES \
                         -e THREE \
                         -e ENV \
-                        -v ./results:results \
-                        -v ./downloads:downloads \
+                        -v ./results:/var/src/app/results \
+                        -v ./downloads:/var/src/app/downloads \
                         my_framework \
                         mvn clean test verify
                 '''
