@@ -56,8 +56,9 @@ pipeline {
         stage('Deploy selenium grid') {
             steps {
                 sh '''
-                    docker run -d -p 4442-4444:4442-4444 --name selenium-hub selenium/hub:4.15.0-20231122
-                    docker run -d --name node-$BROWSER_TYPE \
+                    docker network create grid
+                    docker run -d --net grid -p 4442-4444:4442-4444 --name selenium-hub selenium/hub:4.15.0-20231122
+                    docker run -d --net grid --name node-$BROWSER_TYPE \
                         --shm-size="2g" \
                         -e SE_EVENT_BUS_HOST=selenium-hub \
                         -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
@@ -71,8 +72,8 @@ pipeline {
                 sh '''
                     mkdir results || true
                     mkdir downloads || true
-                    echo $(curl -sL "http://host.docker.internal:4444/wd/hub/status")
                     docker run -t --rm --name my_framework \
+                        --net grid \
                         -e TAGS \
                         -e NODES \
                         -e THREE \
@@ -91,6 +92,7 @@ pipeline {
                 docker rmi my_framework
                 docker stop selenium-hub && docker rm $_
                 docker stop node-$BROWSER_TYPE && docker rm $_
+                docker network rm grid
             '''
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
