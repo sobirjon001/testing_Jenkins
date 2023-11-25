@@ -9,11 +9,13 @@ pipeline {
         choice name: 'NODES', choices: ['1', '2', '3', '4', '5', '6'], description: 'Number of parallel nodes'
         string name: 'TAGS', description: 'Example: @One and @Two and not (@Three or @Four)'
         password name: 'ENV_PARAMS', description: 'Please copy/past user logins'
+        choise name: 'BROWSER_TYPE', choices: ['chrome', 'firefox'], description: 'Desired browser'
         text name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download'
     }
     environment {
         THREE = "THREE_value"
         ENV = "${ENV_PARAMS}"
+        browser = "remote:$BROWSER_TYPE"
     }
 
     stages {
@@ -50,15 +52,45 @@ pipeline {
                 sh 'docker build -t my_framework -f Jenkins/Dockerfiles/Dockerfile.test .'
             }
         }
+        stage('Deploy selenium grid') {
+            steps {
+                sh '''
+                    $ docker network create grid
+                    $ docker run -d -p 4442-4444:4442-4444 --net grid --name selenium-hub selenium/hub:4.15.0-20231122
+                    $ docker run -d --name node-$BROWSER_TYPE \
+                        --net grid \
+                        --shm-size="2g" \
+                        -e SE_EVENT_BUS_HOST=selenium-hub \
+                        -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+                        -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+                        selenium/node-$BROWSER_TYPE:4.15.0-20231122
+                '''
+            }
+        }
         stage('Deploy and Test') {
             steps {
-                sh 'docker run -it -e TAGS -e NODES -e THREE -e ENV -v results -v src/test/resources/downloads --rm my_framework'
+                sh '''
+                    docker run -it --rm \
+                        -e TAGS \
+                        -e NODES \
+                        -e THREE \
+                        -e ENV \
+                        -v results \
+                        -v src/test/resources/downloads \
+                        my_framework \
+                        mvn clean test verify
+                '''
             }
         }
     }
     post {
         always {
-            sh 'docker rmi my_framework'
+            sh '''
+                docker rmi my_framework
+                docker stop selenium-hub | docker rm $_
+                docker stop node-$BROWSER_TYPE | docker rm $_
+                docker network rm grid
+            '''
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             cleanWs()
         }
