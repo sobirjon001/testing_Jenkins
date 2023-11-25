@@ -71,6 +71,7 @@ pipeline {
             steps {
                 sh '''
                     mkdir results || true
+                    chmod 777 results
                     mkdir downloads || true
                     docker run -t --rm --name my_framework \
                         --net grid \

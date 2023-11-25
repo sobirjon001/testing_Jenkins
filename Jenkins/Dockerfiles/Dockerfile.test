@@ -6,6 +6,7 @@ COPY ./src ./src
 COPY ./pom.xml ./pom.xml
 
 RUN mkdir results || true
+RUN chmod 777 results
 RUN mkdir downloads || true
 
 RUN echo "Build successful!"
