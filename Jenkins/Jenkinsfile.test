@@ -72,7 +72,8 @@ pipeline {
                 sh '''
                     mkdir results || true
                     mkdir downloads || true
-                    docker run -t --rm --net grid \
+                    echo $(curl "http://host.docker.internal:4444/wd/hub/status")
+                    docker run -t --rm --net grid --name my_framework \
                         -e TAGS \
                         -e NODES \
                         -e THREE \
@@ -94,7 +95,6 @@ pipeline {
                 docker network rm grid
             '''
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-            cleanWs()
         }
     }
 }
