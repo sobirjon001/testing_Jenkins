@@ -15,7 +15,7 @@ pipeline {
     environment {
         THREE = "THREE_value"
         ENV = "${ENV_PARAMS}"
-        browser = "remote:$BROWSER_TYPE"
+        BROWSER = "remote:$BROWSER_TYPE"
     }
 
     stages {

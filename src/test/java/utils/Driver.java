@@ -20,8 +20,8 @@ public class Driver {
   public static WebDriver getDriver() {
 
     if (driver == null) {
-      String browserLocation = Config.getEnv("browser").split(":")[0];
-      String browserType = Config.getEnv("browser").split(":")[1];
+      String browserLocation = Config.getEnv("BROWSER").split(":")[0];
+      String browserType = Config.getEnv("BROWSER").split(":")[1];
       try {
         if (Objects.equals(browserLocation, "local")) {
           System.out.println("Getting local driver");
