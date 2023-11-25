@@ -62,6 +62,6 @@ public class Driver {
   }
 
   public static boolean browserInitialized() {
-    return browser != null;
+    return driver != null;
   }
 }
