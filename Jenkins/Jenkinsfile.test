@@ -55,8 +55,8 @@ pipeline {
         stage('Deploy selenium grid') {
             steps {
                 sh '''
-                    $ docker run -d -p 4442-4444:4442-4444 --name selenium-hub selenium/hub:4.15.0-20231122
-                    $ docker run -d --name node-$BROWSER_TYPE \
+                    docker run -d -p 4442-4444:4442-4444 --name selenium-hub selenium/hub:4.15.0-20231122
+                    docker run -d --name node-$BROWSER_TYPE \
                         --shm-size="2g" \
                         -e SE_EVENT_BUS_HOST=selenium-hub \
                         -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
