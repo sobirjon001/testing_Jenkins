@@ -14,7 +14,6 @@ import java.util.Objects;
 public class Driver {
 
   private static WebDriver driver;
-  private static final String browser = "chrome";
 
 
   public static WebDriver getDriver() {
@@ -48,8 +47,8 @@ public class Driver {
       } catch (Exception e) {
         System.out.println(e.getMessage());
       }
-      driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-      driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+      driver.manage().timeouts().implicitlyWait(Duration.ofMinutes(10));
+      driver.manage().timeouts().pageLoadTimeout(Duration.ofMinutes(10));
     }
     return driver;
   }
