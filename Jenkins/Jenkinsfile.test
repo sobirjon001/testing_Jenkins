@@ -87,8 +87,8 @@ pipeline {
         always {
             sh '''
                 docker rmi my_framework
-                docker stop selenium-hub | docker rm $_
-                docker stop node-$BROWSER_TYPE | docker rm $_
+                docker stop selenium-hub | docker rm "$_"
+                docker stop node-$BROWSER_TYPE | docker rm "$_"
             '''
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             cleanWs()
