@@ -1,8 +1,11 @@
 FROM maven:3.9.5-amazoncorretto-11
 
-COPY . .
+WORKDIR /var/src/app
 
-RUN mkdir results
-RUN mkdir src/test/resources/downloads
+COPY ./src ./src
+COPY ./pom.xml ./pom.xml
+
+RUN mkdir results || true
+RUN mkdir downloads || true
 
 RUN echo "Build successful!"

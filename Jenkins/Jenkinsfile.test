@@ -70,13 +70,15 @@ pipeline {
         stage('Deploy and Test') {
             steps {
                 sh '''
+                    mkdir results || true
+                    mkdir downloads || true
                     docker run -it --rm \
                         -e TAGS \
                         -e NODES \
                         -e THREE \
                         -e ENV \
-                        -v results \
-                        -v src/test/resources/downloads \
+                        -v ./results:results \
+                        -v ./downloads:downloads \
                         my_framework \
                         mvn clean test verify
                 '''
