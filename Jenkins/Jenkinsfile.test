@@ -73,7 +73,7 @@ pipeline {
                     mkdir results || true
                     chmod 777 results
                     mkdir downloads || true
-                    docker run -t --rm --name my_framework \
+                    docker run -t --name my_framework \
                         --net grid \
                         -e TAGS \
                         -e NODES \
@@ -89,13 +89,14 @@ pipeline {
     }
     post {
         always {
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             sh '''
-                docker rmi my_framework
                 docker rm $(docker stop selenium-hub)
                 docker rm $(docker stop node-$BROWSER_TYPE)
+                docker rm $(docker stop my_framework)
+                docker rmi my_framework
                 docker network rm grid
             '''
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
     }
 }
