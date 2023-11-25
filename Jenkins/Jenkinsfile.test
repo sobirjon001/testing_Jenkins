@@ -55,7 +55,11 @@ pipeline {
         }
         stage('Deploy selenium grid') {
             steps {
-                sh 'Jenkins/selenium_grid.sh deploy $BROWSER_TYPE'
+                sh '''
+                    id
+                    ls -al Jenkins/
+                    Jenkins/selenium_grid.sh deploy $BROWSER_TYPE
+                '''
             }
         }
         stage('Deploy and Test') {
