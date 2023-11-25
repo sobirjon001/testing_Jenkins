@@ -38,8 +38,8 @@ public class Driver {
           }
         } else {
           System.out.println("Getting remote browser");
-          URL url = new URL("http://host.docker.internal:4444/wd/hub");
-//                        URL url = new URL("http://localhost:4444/wd/hub");
+//          URL url = new URL("http://host.docker.internal:4444/wd/hub");
+          URL url = new URL("http://localhost:4444/wd/hub");
 //        URL url = new URL("http://192.168.1.90:4444/wd/hub");
           DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
           desiredCapabilities.setBrowserName(browserType);
