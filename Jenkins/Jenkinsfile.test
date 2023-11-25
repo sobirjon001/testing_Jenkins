@@ -56,9 +56,14 @@ pipeline {
         stage('Deploy selenium grid') {
             steps {
                 sh '''
-                    id
-                    ls -al Jenkins/
-                    Jenkins/selenium_grid.sh deploy $BROWSER_TYPE
+                    docker network create grid
+                    docker run -d --net grid -p 4442-4444:4442-4444 --name selenium-hub selenium/hub:4.15.0-20231122
+                    docker run -d --net grid -p 5900:5900 --name node-$BROWSER_TYPE \
+                        --shm-size="2g" \
+                        -e SE_EVENT_BUS_HOST=selenium-hub \
+                        -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+                        -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+                        selenium/node-$BROWSER_TYPE:4.15.0-20231122
                 '''
             }
         }
@@ -85,7 +90,9 @@ pipeline {
         always {
             sh '''
                 docker rmi my_framework
-                Jenkins/selenium_grid.sh teardown $BROWSER_TYPE
+                docker stop selenium-hub | docker rm $_
+                docker stop node-$BROWSER_TYPE | docker rm $_
+                docker network rm grid
             '''
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
