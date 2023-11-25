@@ -58,7 +58,7 @@ pipeline {
                 sh '''
                     docker network create grid
                     docker run -d --net grid -p 4442-4444:4442-4444 --name selenium-hub selenium/hub:4.15.0-20231122
-                    docker run -d --net grid --name node-$BROWSER_TYPE \
+                    docker run -d --net grid -p 5900:5900 --name node-$BROWSER_TYPE \
                         --shm-size="2g" \
                         -e SE_EVENT_BUS_HOST=selenium-hub \
                         -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
