@@ -70,8 +70,7 @@ pipeline {
                             -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
                             -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
                             selenium/node-$BROWSER_TYPE:4.15.0-20231122;
-                    done
-                    ./Jenkins/wait-for-grid.sh $TEAM
+                    done                    
                 '''
             }
         }
@@ -87,7 +86,7 @@ pipeline {
                         -v $(pwd)/results:/var/src/app/results \
                         -v $(pwd)/downloads:/var/src/app/downloads \
                         my_framework \
-                        mvn test verify
+                        ./Jenkins/wait-for-grid.sh mvn test verify
                 '''
             }
         }

@@ -1,5 +1,7 @@
 FROM maven:3.9.5-amazoncorretto-11
 
+RUN yum install -y curl jq tr
+
 WORKDIR /var/src/app
 
 COPY ./src ./src
