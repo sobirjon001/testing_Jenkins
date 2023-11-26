@@ -20,10 +20,6 @@ pipeline {
         BROWSER = "remote:$BROWSER_TYPE"
     }
 
-    options {
-        ansiColor('xterm')
-    }
-
     stages {
         stage('clone repo') {
             steps {
