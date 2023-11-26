@@ -82,7 +82,7 @@ pipeline {
                     docker run -t --name my_framework \
                         --net "$TEAM-grid" \
                         -e TAGS -e NODES -e THREE -e ENV -e BROWSER -e TEAM \
-                        -v $(pwd)/results:/var/src/app/results \
+                        -v results:/var/src/app/results \
                         -v $(pwd)/downloads:/var/src/app/downloads \
                         my_framework \
                         mvn verify
@@ -99,7 +99,6 @@ pipeline {
                 for i in $(seq 1 $NODES); do
                     docker rm $(docker stop "$TEAM-node-$BROWSER_TYPE-$i");
                 done
-                docker network rm "$TEAM-grid"
                 docker rm $(docker stop my_framework)
                 docker rmi my_framework
                 docker network rm "$TEAM-grid"
