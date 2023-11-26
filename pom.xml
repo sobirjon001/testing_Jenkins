@@ -62,16 +62,16 @@
         <executions>
           <execution>
             <id>execution</id>
-            <phase>verify</phase>
+            <phase>post-integration-test</phase>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <projectName>Cucumber HTML Reports</projectName>
               <outputDirectory>results</outputDirectory>
-              <inputDirectory>${project.build.directory}</inputDirectory>
+              <inputDirectory>target</inputDirectory>
               <jsonFiles>
-                <param>**/cucumber*.json</param>
+                <param>cucumber-report.json</param>
               </jsonFiles>
             </configuration>
           </execution>
