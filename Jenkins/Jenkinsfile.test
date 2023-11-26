@@ -80,7 +80,7 @@ pipeline {
                     chmod 777 results
                     mkdir downloads || true
                     docker run -t --name my_framework \
-                        --net grid \
+                        --net "$TEAM-grid" \
                         -e TAGS -e NODES -e THREE -e ENV -e BROWSER -e TEAM \
                         -v $(pwd)/results:/var/src/app/results \
                         -v $(pwd)/downloads:/var/src/app/downloads \
