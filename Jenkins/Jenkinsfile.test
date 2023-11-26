@@ -13,6 +13,7 @@ pipeline {
         text name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download'
     }
     environment {
+        TEAM = "enigma"
         THREE = "THREE_value"
         ENV = "${ENV_PARAMS}"
         BROWSER = "remote:$BROWSER_TYPE"
@@ -56,14 +57,18 @@ pipeline {
         stage('Deploy selenium grid') {
             steps {
                 sh '''
-                    docker network create grid
-                    docker run -d --net grid -p 4442-4444:4442-4444 --name selenium-hub selenium/hub:4.15.0-20231122
-                    docker run -d --net grid -p 5900:5900 --name node-$BROWSER_TYPE \
-                        --shm-size="2g" \
-                        -e SE_EVENT_BUS_HOST=selenium-hub \
-                        -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
-                        -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
-                        selenium/node-$BROWSER_TYPE:4.15.0-20231122
+                    docker run -d --name "$TEAM-selenium-hub" \
+                        --net "$TEAM-grid" --expose 4442-4444  \
+                        selenium/hub:4.15.0-20231122
+                    for i in $(seq 1 $NODES); do
+                        docker run -d --name "$TEAM-node-$BROWSER_TYPE-$i" \
+                            --net "$TEAM-grid" --expose 7900 \
+                            --shm-size="2g" \
+                            -e SE_EVENT_BUS_HOST="$TEAM-selenium-hub" \
+                            -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+                            -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+                            selenium/node-$BROWSER_TYPE:4.15.0-20231122;
+                    done
                 '''
             }
         }
@@ -75,10 +80,7 @@ pipeline {
                     mkdir downloads || true
                     docker run -t --name my_framework \
                         --net grid \
-                        -e TAGS \
-                        -e NODES \
-                        -e THREE \
-                        -e ENV \
+                        -e TAGS -e NODES -e THREE -e ENV -e BROWSER -e TEAM \
                         -v $(pwd)/results:/var/src/app/results \
                         -v $(pwd)/downloads:/var/src/app/downloads \
                         my_framework \
@@ -92,8 +94,11 @@ pipeline {
 //            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'results/cucumber-html-reports', reportFiles: 'overview-features.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             sh '''
-                docker rm $(docker stop selenium-hub)
-                docker rm $(docker stop node-$BROWSER_TYPE)
+                docker rm $(docker stop "$TEAM-selenium-hub")
+                for i in $(seq 1 $NODES); do
+                    docker rm $(docker stop "$TEAM-node-$BROWSER_TYPE-$i");
+                done
+                docker network rm "$TEAM-grid"
                 docker rm $(docker stop my_framework)
                 docker rmi my_framework
                 docker network rm grid
