@@ -6,6 +6,7 @@ WORKDIR /var/src/app
 
 COPY ./src ./src
 COPY ./pom.xml ./pom.xml
+COPY ./Jenkins ./Jenkins
 
 RUN mkdir results || true
 RUN chmod 777 results
