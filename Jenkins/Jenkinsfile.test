@@ -57,6 +57,7 @@ pipeline {
         stage('Deploy selenium grid') {
             steps {
                 sh '''
+                    docker network create "$TEAM-grid"
                     docker run -d --name "$TEAM-selenium-hub" \
                         --net "$TEAM-grid" --expose 4442-4444  \
                         selenium/hub:4.15.0-20231122

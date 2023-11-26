@@ -7,7 +7,7 @@ ENV="ONE=one_value TWO=two_value one_more_three_value FOUR=#four_value #FIVE=fiv
 TEAM=enigma
 
 deploy() {
-#  docker network create "$TEAM-grid"
+  docker network create "$TEAM-grid"
   docker run -d --name "$TEAM-selenium-hub" \
     --net "$TEAM-grid" --expose 4442-4444  \
     -e SE_SESSION_REQUEST_TIMEOUT=500 \
