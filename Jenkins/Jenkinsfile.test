@@ -102,7 +102,7 @@ pipeline {
                 docker network rm "$TEAM-grid"
                 docker rm $(docker stop my_framework)
                 docker rmi my_framework
-                docker network rm grid
+                docker network rm "$TEAM-grid"
             '''
         }
     }
