@@ -82,8 +82,8 @@ pipeline {
                     docker run -t --name my_framework \
                         --net "$TEAM-grid" \
                         -e TAGS -e NODES -e THREE -e ENV -e BROWSER -e TEAM \
-                        -v results:/var/src/app/results \
-                        -v $(pwd)/downloads:/var/src/app/downloads \
+                        -v ./results:/var/src/app/results \
+                        -v ./downloads:/var/src/app/downloads \
                         my_framework \
                         mvn verify
                 '''
