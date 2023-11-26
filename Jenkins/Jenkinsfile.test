@@ -12,11 +12,16 @@ pipeline {
         choice name: 'BROWSER_TYPE', choices: ['chrome', 'firefox'], description: 'Desired browser'
         text name: 's3files', defaultValue: '''s3://one/two/three*.csv''', description: 's3 bucket files to download'
     }
+
     environment {
         TEAM = "enigma"
         THREE = "THREE_value"
         ENV = "${ENV_PARAMS}"
         BROWSER = "remote:$BROWSER_TYPE"
+    }
+
+    options {
+        ansiColor('xterm')
     }
 
     stages {
@@ -70,6 +75,7 @@ pipeline {
                             -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
                             selenium/node-$BROWSER_TYPE:4.15.0-20231122;
                     done
+                    ./Jenkins/wait-for-grid.sh $TEAM
                 '''
             }
         }
