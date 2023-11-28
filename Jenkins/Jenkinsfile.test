@@ -52,7 +52,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t my_framework -f Jenkins/Dockerfiles/Dockerfile.test .'
+                sh 'docker build -t my_framework -f Jenkins/Dockerfile .'
             }
         }
         stage('Deploy selenium grid') {
@@ -85,6 +85,7 @@ pipeline {
                         -e TAGS -e NODES -e THREE -e ENV -e BROWSER -e TEAM \
                         -v $(pwd)/results:/var/src/app/results \
                         -v $(pwd)/downloads:/var/src/app/downloads \
+                        --user 1000:1000 \
                         my_framework \
                         ./Jenkins/wait-for-grid.sh mvn test verify
                 '''
